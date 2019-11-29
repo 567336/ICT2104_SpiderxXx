@@ -4,7 +4,8 @@
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 #include "main.h"
 
-#define SERVO_MAX_NUM 12
+//Servo angle settings
+#define SERVO_MAX_NUM 12 // Max servos used
 #define SERVO_MAX_ANGLE 180//
 #define SERVO_MIN_ANGLE 0//
 
@@ -24,22 +25,22 @@
 #define SERVO_13   0x0C//(0x01 << 11)
 
 
-
+// Includes
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdarg.h>
 
 
-
+//Define struct Servo structure
 typedef struct _SERVO
 {
-	INT16U  uin_LastAngle;
-	INT16U  uin_PresentAngle;
-	INT16U  uin_TurnSpeed;
+	INT16U  uin_LastAngle; //Store last known angle of Servo
+	INT16U  uin_PresentAngle; // Store current Servo angle
+	INT16U  uin_TurnSpeed; // Store the rate of turning
 }SERVO;
 
-extern SERVO gast_ServoArray[SERVO_MAX_NUM];
+extern SERVO gast_ServoArray[SERVO_MAX_NUM]; // Array to store all Servo struct
 //void Servo_Process(INT16U uch_Num, SERVO *pst_Servo);
 
 

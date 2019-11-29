@@ -24,7 +24,7 @@
 #define NUM_TWO   0xBB
 #define NUM_THREE 0xCC
 
-void App_Init(void);//应用程序初始化
+void App_Init(void);
 void RobtotProcess(INT8U uch_WhichLeg, INT8U uch_Num, INT16U uin_Angle);//
 
 

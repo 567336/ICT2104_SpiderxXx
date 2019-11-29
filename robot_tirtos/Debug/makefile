@@ -166,7 +166,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@$(MAKE) --no-print-directory -Onone "uartecho_MSP_EXP432P401R_tirtos_ccs.out"
 
 dependents:
-	-cd C:/Users/Justin/workspace_v9/tirtos_builds_MSP_EXP432P401R_release_ccs/Debug && $(MAKE) all
+	-cd C:/Users/Justin/workspace_v9/tirtos_builds_MSP_EXP432P401R_release_ccs/Debug && $(MAKE) clean all
 
 # Tool invocations
 uartecho_MSP_EXP432P401R_tirtos_ccs.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/Users/Justin/workspace_v9/tirtos_builds_MSP_EXP432P401R_release_ccs/Debug/tirtos_builds_MSP_EXP432P401R_release_ccs.lib

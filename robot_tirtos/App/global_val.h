@@ -3,9 +3,9 @@
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 #include "main.h"
 
-extern INT8U guch_ServoAngle;//舵机角度
-extern INT16U guin_AdcValue;//ADC值
-void GlobalValue_Init(void);//全局变量初始化函数声明
+extern INT8U guch_ServoAngle;//Servo angle
+extern INT16U guin_AdcValue;//ADC value
+void GlobalValue_Init(void);
 
 
 #endif

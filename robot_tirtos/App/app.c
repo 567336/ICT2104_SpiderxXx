@@ -4,10 +4,10 @@
  * @brief: App_Init
  * @param: void
  * @return: void
- * @function: 应用程序初始化
+ * @function: Initialize App
  * @author: 
  * @version: V1.0
- * @note: 初始化对应的外设资源
+ * @note: Initialize required modules
  *************************************************************************
 **/
 void App_Init(void)
@@ -17,15 +17,11 @@ void App_Init(void)
 
 	/* Enabling the FPU for floating point operation */
     MAP_FPU_enableModule();
-    MAP_FPU_enableLazyStacking();//打开浮点运算单元
+    MAP_FPU_enableLazyStacking();
 	
 	CS_initClockSignal(CS_SMCLK, CS_HFXTCLK_SELECT, CS_CLOCK_DIVIDER_4);//48MHz / 4 = 12MHz
+	PCA9685_Init();//Initialize PCA9685 servo controller and I2C connection
 
-	//Adc_Init();//ADC初始化
-	//HC_SR04_Init();
-	//GlobalValue_Init();//全局变量初始化
-	PCA9685_Init();//舵机驱动器初始化
-	Interrupt_enableMaster();//使能全局中断
 }
 void RobotProcess(INT8U uch_WhichLeg, INT8U uch_Num, INT16U uin_Angle)
 {
@@ -452,7 +448,7 @@ void RobotUSmiddle()
 }
 void RobotRun(uint16_t uin_Speed)
 {
-       //达到状态1，抬腿2并向前移
+       //Set to state 1, raise LEG 2 and move forward
         RobotProcess(LEG_TWO, NUM_TWO, 0);
         delay_ms(uin_Speed);
         RobotProcess(LEG_TWO, NUM_THREE, 60);
@@ -463,21 +459,21 @@ void RobotRun(uint16_t uin_Speed)
         delay_ms(uin_Speed);
         RobotProcess(LEG_THREE, NUM_THREE, 80);
         RobotProcess(LEG_ONE, NUM_THREE, 100);
-        //delay_ms(uin_Speed);
-        //抬脚4向前移
+
+        //Raise LEG 4 and move forward
         RobotProcess(LEG_FOUR, NUM_TWO, 10);
         delay_ms(uin_Speed);
         RobotProcess(LEG_FOUR, NUM_THREE, 120);
         delay_ms(uin_Speed);
         RobotProcess(LEG_FOUR, NUM_TWO, 45);
         delay_ms(uin_Speed);
-        //抬腿3向前迈
+        //Raise LEG 3 and move forward
         RobotProcess(LEG_THREE, NUM_TWO, 0);
         delay_ms(uin_Speed);
         RobotProcess(LEG_THREE, NUM_THREE, 120);
         delay_ms(uin_Speed);
 
-        //2，4 推
+        //Push body forward using LEG 2 and 4 by turning left/right
         RobotProcess(LEG_TWO, NUM_THREE, 115);
         RobotProcess(LEG_FOUR, NUM_THREE, 75);
         RobotProcess(LEG_THREE, NUM_TWO, 45);
@@ -487,7 +483,7 @@ void RobotRun(uint16_t uin_Speed)
         RobotProcess(LEG_FOUR, NUM_THREE, 65);
         delay_ms(uin_Speed);
 
-        //抬腿1并前移
+        //Raise LEG 1 and move forward
         RobotProcess(LEG_ONE, NUM_TWO, 0);
         delay_ms(uin_Speed);
         RobotProcess(LEG_ONE, NUM_THREE, 60);
@@ -510,7 +506,7 @@ void RobotClimb(uint16_t uin_Speed)
     RobotProcess(LEG_ONE, NUM_ONE, 125);
     RobotProcess(LEG_ONE, NUM_TWO, 120);
 
-    //抬2
+    //Raise LEG 2
     delay_ms(uin_Speed);
     RobotProcess(LEG_THREE, NUM_THREE, 80);
     RobotProcess(LEG_THREE, NUM_ONE, 120);
@@ -534,7 +530,7 @@ void RobotClimb(uint16_t uin_Speed)
     RobotProcess(LEG_ONE, NUM_THREE, 110);
     RobotProcess(LEG_THREE, NUM_ONE, 130);
     delay_ms(uin_Speed);
-    //TAI 4
+    //Raise LEG 4
     RobotProcess(LEG_FOUR, NUM_TWO, 0);
     delay_ms(uin_Speed);
 
@@ -546,7 +542,7 @@ void RobotClimb(uint16_t uin_Speed)
     RobotProcess(LEG_TWO, NUM_TWO, 60);
     delay_ms(uin_Speed);
 
-    //TAI 3
+    //Raise LEG 3
     RobotProcess(LEG_THREE, NUM_TWO, 0);
     delay_ms(uin_Speed);
     RobotProcess(LEG_THREE, NUM_ONE, 70);
@@ -563,7 +559,7 @@ void RobotClimb(uint16_t uin_Speed)
     RobotProcess(LEG_THREE, NUM_TWO, 50);
     RobotProcess(LEG_TWO, NUM_THREE, 100);
     delay_ms(uin_Speed);
-    //抬1
+    //Raise LEG 1
     RobotProcess(LEG_ONE, NUM_TWO, 40);
     delay_ms(uin_Speed);
     RobotProcess(LEG_ONE, NUM_THREE, 30);
@@ -572,7 +568,7 @@ void RobotClimb(uint16_t uin_Speed)
     RobotProcess(LEG_ONE, NUM_TWO, 120);
     RobotProcess(LEG_THREE, NUM_TWO, 80);
     delay_ms(uin_Speed);
-    //抬 2
+    //Raise LEG 2
     RobotProcess(LEG_TWO, NUM_TWO, 0);
     delay_ms(uin_Speed);
     RobotProcess(LEG_TWO, NUM_THREE, 60);
@@ -587,7 +583,7 @@ void RobotClimb(uint16_t uin_Speed)
     RobotProcess(LEG_ONE, NUM_TWO, 100);
 
     delay_ms(uin_Speed);
-    //抬 4
+    //Raise LEG 4
     RobotProcess(LEG_FOUR, NUM_TWO, 0);
     delay_ms(uin_Speed);
     RobotProcess(LEG_FOUR, NUM_THREE, 110);
@@ -598,7 +594,7 @@ void RobotClimb(uint16_t uin_Speed)
 
     RobotProcess(LEG_TWO, NUM_TWO, 60);
     delay_ms(uin_Speed);
-    //抬 3
+    //Raise LEG 3
     RobotProcess(LEG_THREE, NUM_TWO, 0);
     delay_ms(uin_Speed);
     RobotProcess(LEG_THREE, NUM_THREE, 130);
@@ -611,7 +607,7 @@ void RobotClimb(uint16_t uin_Speed)
 
 
     delay_ms(uin_Speed);
-    //抬 1
+    //Raise LEG 1
     RobotProcess(LEG_ONE, NUM_TWO, 10);
     delay_ms(uin_Speed);
     RobotProcess(LEG_ONE, NUM_THREE, 0);
@@ -621,7 +617,7 @@ void RobotClimb(uint16_t uin_Speed)
     RobotProcess(LEG_ONE, NUM_TWO, 80);
     delay_ms(uin_Speed);
 
-    //抬 2
+    //Raise LEG 2
     RobotProcess(LEG_TWO, NUM_TWO, 0);
     delay_ms(uin_Speed);
     RobotProcess(LEG_TWO, NUM_THREE, 50);
@@ -633,7 +629,7 @@ void RobotClimb(uint16_t uin_Speed)
     RobotProcess(LEG_FOUR, NUM_TWO, 140);
 
     delay_ms(uin_Speed);
-    //抬4
+    //Raise LEG 4
 
     RobotProcess(LEG_FOUR, NUM_TWO, 0);
     delay_ms(uin_Speed);
@@ -653,7 +649,7 @@ void RobotRight(uint16_t uin_Speed)
     RobotProcess(LEG_FOUR, NUM_THREE, 60);
     RobotProcess(LEG_THREE, NUM_TWO, 30);
     delay_ms(uin_Speed);
-    //抬腿1，向右挪
+    //Raise LEG 1, turn towards right
     RobotProcess(LEG_TWO, NUM_TWO, 50);
 
     RobotProcess(LEG_FOUR, NUM_TWO, 50);
@@ -669,7 +665,7 @@ void RobotRight(uint16_t uin_Speed)
     RobotProcess(LEG_FOUR, NUM_TWO, 45);
     RobotProcess(LEG_THREE, NUM_TWO, 50);
     delay_ms(uin_Speed);
-    //抬腿 4
+    //Raise LEG 4
     RobotProcess(LEG_FOUR, NUM_TWO, 10);
     delay_ms(uin_Speed);
     RobotProcess(LEG_FOUR, NUM_THREE, 110);
@@ -678,7 +674,7 @@ void RobotRight(uint16_t uin_Speed)
     RobotProcess(LEG_TWO, NUM_TWO, 50);
     RobotProcess(LEG_ONE, NUM_TWO, 30);
     RobotProcess(LEG_THREE, NUM_TWO, 45);
-    //抬腿3，90， 转腿4
+    //Raise LEG 3, 90, turn LEG 4
     delay_ms(uin_Speed);
     RobotProcess(LEG_THREE, NUM_TWO, 10);
     delay_ms(uin_Speed);
@@ -693,7 +689,7 @@ void RobotRight(uint16_t uin_Speed)
     RobotProcess(LEG_FOUR, NUM_THREE, 50);
     RobotProcess(LEG_THREE, NUM_TWO, 50);
     delay_ms(uin_Speed);
-    //抬腿2，90
+    //Raise LEG 2, 90
     RobotProcess(LEG_TWO, NUM_TWO, 10);
     delay_ms(uin_Speed);
     RobotProcess(LEG_TWO, NUM_THREE, 110);
@@ -713,7 +709,7 @@ void RobotLeft(uint16_t uin_Speed)
     RobotProcess(LEG_ONE, NUM_THREE, 120);
     RobotProcess(LEG_TWO, NUM_THREE, 120);
     delay_ms(uin_Speed);
-    //抬腿4，向左挪
+    //Raise LEG 4, turn towards left
     RobotProcess(LEG_TWO, NUM_TWO, 40);
     RobotProcess(LEG_ONE, NUM_THREE, 140);
     RobotProcess(LEG_THREE, NUM_THREE, 100);
@@ -727,7 +723,7 @@ void RobotLeft(uint16_t uin_Speed)
     RobotProcess(LEG_THREE, NUM_TWO, 45);
     RobotProcess(LEG_ONE, NUM_TWO, 45);
     delay_ms(uin_Speed);
-    //抬腿1
+    //Raise LEG 1
     RobotProcess(LEG_ONE, NUM_TWO, 10);
     delay_ms(uin_Speed);
     RobotProcess(LEG_ONE, NUM_THREE, 60);
@@ -737,7 +733,7 @@ void RobotLeft(uint16_t uin_Speed)
     RobotProcess(LEG_THREE, NUM_TWO, 60);
     RobotProcess(LEG_FOUR, NUM_TWO, 40);
     RobotProcess(LEG_TWO, NUM_TWO, 40);
-    //抬腿2，90， 转腿4
+    //Raise LEG 2, 90, turn LEG 4
     RobotProcess(LEG_ONE, NUM_THREE, 55);
     RobotProcess(LEG_TWO, NUM_TWO, 10);
     delay_ms(uin_Speed);
@@ -758,7 +754,7 @@ void RobotLeft(uint16_t uin_Speed)
     RobotProcess(LEG_THREE, NUM_TWO, 45);
 
     delay_ms(uin_Speed);
-    //抬腿3，90
+    //Raise LEG 3, 90
     RobotProcess(LEG_TWO, NUM_THREE, 65);
     RobotProcess(LEG_THREE, NUM_TWO, 0);
     delay_ms(uin_Speed);

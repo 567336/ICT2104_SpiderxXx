@@ -1,27 +1,10 @@
-#include <stdint.h>
-#include <stddef.h>
-#include <unistd.h>
 #include "pca9685.h"
 #include "myiic.h"
 #include "delay.h"
 #include "math.h"
-#include <ti/drivers/I2C.h>
-#include <xdc/runtime/System.h>
-#include "ti_drivers_config.h"
 
-uint8_t txBuffer[10];
-uint8_t rxBuffer[10];
-bool            retVal = false;
-I2C_Handle      i2c;
-I2C_Params      i2cParams;
-I2C_Transaction i2cTransaction;
 
-void check (I2C_Handle handle, I2C_Transaction * tran, bool ret)
-{
-
-}
-
-static void pca_write(INT8U adrr,INT8U data)
+static void pca_write(INT8U adrr,INT8U data)//Write data to PCA, adrr = register address
 { 
 
 
@@ -44,7 +27,7 @@ static void pca_write(INT8U adrr,INT8U data)
 
 }
 
-static INT8U pca_read(INT8U adrr)//从PCA读数据
+static INT8U pca_read(INT8U adrr)//Read data from PCA
 {
     INT8U data;
         IIC_Start();
@@ -67,7 +50,7 @@ static INT8U pca_read(INT8U adrr)//从PCA读数据
 }
 
 
-static void pca_setfreq(float freq)//设置PWM频率
+static void pca_setfreq(float freq)//Set PWM frequency
 {
     System_printf("setting freq\n");
                      System_flush();
@@ -110,7 +93,7 @@ void PCA9685_Init(void)
     const FP32 f_freq = 60.0f;
         MYIIC_Init();
         pca_write(PCA_MODE,0x00);
-        pca_setfreq(f_freq);//设置PWM频率
+        pca_setfreq(f_freq);//Set PWM frequency
     
 }
 void PCA9685_ControlServo(INT8U uch_num, INT8U uch_angle)
