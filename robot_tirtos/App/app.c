@@ -12,7 +12,7 @@
 **/
 void App_Init(void)
 {
-    MAP_WDT_A_holdTimer();//¹ÒÆð¿´ÃÅ¹·
+    MAP_WDT_A_holdTimer();// Halt watchdog timer
 	
 
 	/* Enabling the FPU for floating point operation */
